@@ -16,6 +16,8 @@ function BirthForm() {
     const birthFormData = new FormData(event.currentTarget);
 
     dispatch(birthAction.birthInfo({ year: birthFormData.get('year'), month: birthFormData.get('month'), day: birthFormData.get('day') }));
+
+    dispatch(birthAction.calculateCurrentAge());
   };
 
   return (

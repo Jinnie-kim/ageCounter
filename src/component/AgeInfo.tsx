@@ -5,7 +5,18 @@ interface nameState {
 }
 
 interface birthState {
-  birth: { year: number; month: number; day: number; age: number; nextAge: number; nextAgeMonth: number; nextAgeDay: number };
+  birth: {
+    year: number;
+    month: number;
+    day: number;
+    age: number;
+    nextAge: number;
+    nextAgeMonth: number;
+    nextAgeDay: number;
+    nextAgeGroup: number;
+    nextAgeGroupYear: number;
+    nextAgeGroupMonth: number;
+  };
 }
 
 function AgeInfo() {
@@ -17,6 +28,9 @@ function AgeInfo() {
   const nextAgeMonth = useSelector((state: birthState) => state.birth.nextAgeMonth);
   const nextAgeDay = useSelector((state: birthState) => state.birth.nextAgeDay);
   const nextAge = useSelector((state: birthState) => state.birth.nextAge);
+  const nextAgeGroup = useSelector((state: birthState) => state.birth.nextAgeGroup);
+  const nextAgeGroupYear = useSelector((state: birthState) => state.birth.nextAgeGroupYear);
+  const nextAgeGroupMonth = useSelector((state: birthState) => state.birth.nextAgeGroupMonth);
 
   return (
     <div>
@@ -30,7 +44,7 @@ function AgeInfo() {
         💁🏻‍♀️ 다음 나이 {nextAge}까지 약 {nextAgeMonth}개월 {nextAgeDay}일 남았습니다.
       </p>
       <p>
-        🧚 다음 나이 {}대 까지 {}년 {}개월 {}일 남았습니다.
+        🧚 다음 나이 대 {nextAgeGroup}까지 약 {nextAgeGroupYear}년 {nextAgeGroupMonth}개월 남았습니다.
       </p>
     </div>
   );

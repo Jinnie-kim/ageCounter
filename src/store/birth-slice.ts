@@ -8,9 +8,23 @@ interface BirthState {
   nextAge: number;
   nextAgeMonth: number;
   nextAgeDay: number;
+  nextAgeGroup: number;
+  nextAgeGroupYear: number;
+  nextAgeGroupMonth: number;
 }
 
-const initialState = { year: 0, month: 0, day: 0, age: 0, nextAge: 0, nextAgeMonth: 0, nextAgeDay: 0 } as BirthState;
+const initialState = {
+  year: 0,
+  month: 0,
+  day: 0,
+  age: 0,
+  nextAge: 0,
+  nextAgeMonth: 0,
+  nextAgeDay: 0,
+  nextAgeGroup: 0,
+  nextAgeGroupYear: 0,
+  nextAgeGroupMonth: 0,
+} as BirthState;
 
 const birthSlice = createSlice({
   name: 'birth',
@@ -28,7 +42,14 @@ const birthSlice = createSlice({
       const monthDiff = today.getMonth() - birthday.getMonth();
       let age = today.getFullYear() - birthday.getFullYear();
       let nextAgeDiffDate;
-      console.log(nextAgeDiffDate);
+      let nextAgeGroup = (Math.floor(age / 10) + 1) * 10;
+      state.nextAgeGroup = nextAgeGroup;
+      let nextAgeGroupDiff = nextAgeGroup - age;
+      nextBirth = new Date(`${today.getFullYear() + nextAgeGroupDiff}-${state.month}-${state.day}`);
+      let nextAgeGroupDiffDate = Math.abs((nextBirth.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      state.nextAgeGroupYear = Math.floor(nextAgeGroupDiffDate / 30 / 12);
+      state.nextAgeGroupMonth = Math.floor((nextAgeGroupDiffDate / 30) % 12);
+      console.log(state.nextAgeGroupMonth);
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
         state.age = age--;
         nextBirth = new Date(`${today.getFullYear()}-${state.month}-${state.day}`);

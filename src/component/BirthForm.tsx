@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { birthAction } from '../store/birth-slice';
+import { BirthFormStyle, BirthInput, BirthButton } from './BirthForm.style';
 
 interface nameState {
   name: { name: string };
@@ -21,12 +22,12 @@ function BirthForm() {
   };
 
   return (
-    <form onSubmit={birthRegisterHandler}>
-      <input type="number" placeholder="연도" name="year" />
-      <input type="number" placeholder="월" name="month" />
-      <input type="number" placeholder="일" name="day" />
-      <button type="submit">생년월일 넣기</button>
-    </form>
+    <BirthFormStyle onSubmit={birthRegisterHandler}>
+      <BirthInput type="number" placeholder="연도" name="year" />
+      <BirthInput type="number" placeholder="월" name="month" />
+      <BirthInput type="number" placeholder="일" name="day" />
+      <BirthButton type="submit">생년월일 넣기</BirthButton>
+    </BirthFormStyle>
   );
 }
 

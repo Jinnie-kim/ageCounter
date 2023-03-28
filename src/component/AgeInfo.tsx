@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { birthAction } from '../store/birth-slice';
 import { AgeInfoButton } from './AgeInfo.style';
 
 interface nameState {
@@ -22,6 +23,8 @@ interface birthState {
 }
 
 function AgeInfo() {
+  const dispatch = useDispatch();
+
   const [showNextAge, setShowNextAge] = useState(false);
   const [showNextAgeGroup, setShowNextAgeGroup] = useState(false);
 
@@ -43,10 +46,12 @@ function AgeInfo() {
 
   const showNextAgeHandler = () => {
     setShowNextAge((prevState) => !prevState);
+    dispatch(birthAction.calculateNextAge());
   };
 
   const showNextAgeGroupHandler = () => {
     setShowNextAgeGroup((prevState) => !prevState);
+    dispatch(birthAction.calculateNextAgeGroup());
   };
 
   return (

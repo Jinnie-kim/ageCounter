@@ -37,35 +37,49 @@ const birthSlice = createSlice({
     },
     calculateCurrentAge(state) {
       const today = new Date();
-      let nextBirth;
       const birthday = new Date(`${state.year}-${state.month}-${state.day}`);
       const monthDiff = today.getMonth() - birthday.getMonth();
       let age = today.getFullYear() - birthday.getFullYear();
-      let nextAgeDiffDate;
-      let nextAgeGroup = (Math.floor(age / 10) + 1) * 10;
-      state.nextAgeGroup = nextAgeGroup;
-      let nextAgeGroupDiff = nextAgeGroup - age;
-      nextBirth = new Date(`${today.getFullYear() + nextAgeGroupDiff}-${state.month}-${state.day}`);
-      let nextAgeGroupDiffDate = Math.abs((nextBirth.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-      state.nextAgeGroupYear = Math.floor(nextAgeGroupDiffDate / 30 / 12);
-      state.nextAgeGroupMonth = Math.floor((nextAgeGroupDiffDate / 30) % 12);
-      console.log(state.nextAgeGroupMonth);
       if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
-        state.age = age--;
+        age--;
+      } else if (monthDiff > 0 || (monthDiff === 0 && today.getDate() > birthday.getDate())) {
+        state.age = age;
+      }
+      state.age = age;
+    },
+    calculateNextAge(state) {
+      const today = new Date();
+      const birthday = new Date(`${state.year}-${state.month}-${state.day}`);
+      const monthDiff = today.getMonth() - birthday.getMonth();
+      let age = today.getFullYear() - birthday.getFullYear();
+      let nextBirth;
+      let nextAgeDiffDate;
+
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthday.getDate())) {
         nextBirth = new Date(`${today.getFullYear()}-${state.month}-${state.day}`);
         nextAgeDiffDate = Math.abs((nextBirth.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
-        state.nextAge = today.getFullYear() - birthday.getFullYear();
+        state.nextAge = age;
         state.nextAgeMonth = Math.floor(nextAgeDiffDate / 30);
         state.nextAgeDay = Math.floor(nextAgeDiffDate % 30);
       } else if (monthDiff > 0 || (monthDiff === 0 && today.getDate() > birthday.getDate())) {
-        state.age = age;
         nextBirth = new Date(`${today.getFullYear() + 1}-${state.month}-${state.day}`);
         nextAgeDiffDate = Math.abs((nextBirth.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
         state.nextAge = nextBirth.getFullYear() - birthday.getFullYear();
         state.nextAgeMonth = Math.floor(nextAgeDiffDate / 30);
         state.nextAgeDay = Math.floor(nextAgeDiffDate % 30);
       }
-      state.age = age;
+    },
+    calculateNextAgeGroup(state) {
+      const today = new Date();
+      const birthday = new Date(`${state.year}-${state.month}-${state.day}`);
+      let age = today.getFullYear() - birthday.getFullYear();
+      let nextAgeGroup = (Math.floor(age / 10) + 1) * 10;
+      state.nextAgeGroup = nextAgeGroup;
+      let nextAgeGroupDiff = nextAgeGroup - age;
+      let nextBirth = new Date(`${today.getFullYear() + nextAgeGroupDiff}-${state.month}-${state.day}`);
+      let nextAgeGroupDiffDate = Math.abs((nextBirth.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      state.nextAgeGroupYear = Math.floor(nextAgeGroupDiffDate / 30 / 12);
+      state.nextAgeGroupMonth = Math.floor((nextAgeGroupDiffDate / 30) % 12);
     },
   },
 });
